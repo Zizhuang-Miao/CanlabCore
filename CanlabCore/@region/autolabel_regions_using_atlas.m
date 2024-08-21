@@ -149,6 +149,16 @@ end
 % ------------------------------
 [region_table, table_legend_text, coverage25_labels, ~, ~, ~, all_regions_covered_cell] = atlas_similarity(r, atlas_obj);
 
+% if some regions are lost during resampling
+% discard them in the output region_obj
+if k ~= k_orig
+    for i = 1:k_orig
+        if ~ismember(region_obj(i).shorttitle, region_table.Region)
+            region_obj(i) = [];
+        end
+    end
+end
+
 % Add region labels
 % ------------------------------
 
