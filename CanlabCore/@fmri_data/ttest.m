@@ -72,8 +72,8 @@ function statsimg = ttest(fmridat, pvalthreshold, thresh_type)
 %
 % :Note: for two-sample T-test, use fmri_data.regress
 
-fprintf('One-sample t-test\n')
-fprintf('Calculating t-statistics and p-values\n');
+% fprintf('One-sample t-test\n')
+% fprintf('Calculating t-statistics and p-values\n');
 
 err = ste(fmridat.dat')';
 

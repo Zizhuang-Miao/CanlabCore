@@ -1,4 +1,4 @@
-function [region_obj, region_table, table_legend_text, all_regions_covered_cell] = autolabel_regions_using_atlas(region_obj, varargin)
+ function [region_obj, region_table, table_legend_text, all_regions_covered_cell] = autolabel_regions_using_atlas(region_obj, varargin)
 % Load an atlas object (i.e., defined brain parcels with labels)  and use it to 
 % label regions in a region object (e.g., 'blobs' or regions from an analysis)
 %
@@ -89,6 +89,11 @@ function [region_obj, region_table, table_legend_text, all_regions_covered_cell]
 % ..
 %    Programmers' notes:
 %    List dates and changes here, and author of changes
+%
+%    -- 09/03/2024 Zizhuang Miao
+%       Some regions in the atlas may be lost during resampling.
+%       Add an if loop to check whether that's the case,
+%       and if so, remove those regions from the output region_obj.
 % ..
 % Test code: Validate by visual inspection of each region and label
 % 
@@ -151,13 +156,15 @@ end
 
 % if some regions are lost during resampling
 % discard them in the output region_obj
+indx_to_del = [];
 if k ~= k_orig
     for i = 1:k_orig
         if ~ismember(region_obj(i).shorttitle, region_table.Region)
-            region_obj(i) = [];
+            indx_to_del = [indx_to_del, i];
         end
     end
 end
+region_obj(indx_to_del) = [];
 
 % Add region labels
 % ------------------------------
